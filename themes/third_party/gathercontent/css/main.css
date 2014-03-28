@@ -1,7 +1,7 @@
 @import url('bootstrap.min.css');
 .gc_container {
     width: 414px;
-    margin: 0 auto;
+    margin: 35px auto;
 }
 .gc_container a { text-decoration: none; position: relative; }
 .gc_left {
