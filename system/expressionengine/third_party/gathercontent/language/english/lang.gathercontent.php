@@ -16,7 +16,7 @@ $lang = array(
 
     'api_url_title' => 'Your login URL',
     'api_key_title' => 'API Key',
-    'api_key_tooltip' => 'You can find your unique API key inside your GatherContent account by going to Settings and opening the API tab.',
+    'api_key_tooltip' => 'You can find your unique API key inside your GatherContent account by going to Personal Settings and opening the API tab.',
 
     'api_key' => 'API Key',
     'api_url' => 'API URL',
