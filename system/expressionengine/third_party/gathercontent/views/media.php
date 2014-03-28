@@ -1,4 +1,4 @@
-<div class="gc_container">
+<div class="gc_container gc_cf">
 	<div class="gc_container-header">
 		<h2><?php echo lang('gathercontent_importing_files') ?></h2>
 	</div>

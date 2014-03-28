@@ -1,4 +1,4 @@
-<div class="gc_container">
+<div class="gc_container gc_cf">
     <?php echo form_open($action_url, array('id'=>'gc_importer_step_auth')) ?>
     <?php
     $errs = validation_errors();

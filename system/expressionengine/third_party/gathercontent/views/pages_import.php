@@ -1,5 +1,5 @@
 
-<div class="gc_container gc_wide">
+<div class="gc_container gc_wide gc_cf">
     <div class="gc_overlay"></div>
     <div class="gc_container gc_modal gc_importing_modal">
         <h2><?php echo lang('gathercontent_importing') ?></h2>

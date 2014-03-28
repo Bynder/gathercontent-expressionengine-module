@@ -1,4 +1,4 @@
-<div class="gc_container gc_wide" id="gc_pagelist_container">
+<div class="gc_container gc_wide gc_cf" id="gc_pagelist_container">
     <?php echo form_open($action_url, array('id'=>'gc_importer_step_pages')) ?>
     <?php
     $errs = validation_errors();
