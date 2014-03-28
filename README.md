@@ -15,20 +15,20 @@ The module allows you to specifically map each field on your pages in [GatherCon
 
 ## Install
 
-Upload the files to the appropriate locations (follow the directory path in the module to find out where to put them)
+1.	Upload the files to the appropriate locations (follow the directory path in the module to find out where to put them)
 
-Go to Add-Ons > Modules
+2.	Go to Add-Ons > Modules
 
-Click install on the "GatherContent Importer" row
+3.	Click install on the "GatherContent Importer" row
 
-On the next page install both the module and the extension.
+4.	On the next page install both the module and the extension.
 
-Click "GatherContent Importer" to go to the module.
+5.	Click "GatherContent Importer" to go to the module.
 
-Fill in your API details and click Connect account
+6.	Fill in your API details and click Connect account
 
-On the next page click "+ Add". This will add a link in your top navigation bar for easy access
- 
+7.	On the next page click "+ Add". This will add a link in your top navigation bar for easy access
+
 
 [@gathercontent](http://twitter.com/gathercontent)
 
