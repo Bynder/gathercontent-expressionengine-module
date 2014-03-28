@@ -30,6 +30,9 @@ The module allows you to specifically map each field on your pages in [GatherCon
 7.	On the next page click "+ Add". This will add a link in your top navigation bar for easy access
 
 
+[Let us know if you have any feedback or suggestions](mailto:support@gathercontent.com)
+
+
 [@gathercontent](http://twitter.com/gathercontent)
 
 [mat@gathercontent.com](mailto:mat@gathercontent.com)
