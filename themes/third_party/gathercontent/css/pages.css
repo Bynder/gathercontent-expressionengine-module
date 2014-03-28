@@ -180,11 +180,13 @@ td.gc_pagename { text-align: left; }
     opacity:0.65;
     filter:alpha(opacity=65);
 }
-.gc_category {
-    clear: both;
-}
 .gc_settings_header .gc_setting {
     margin-top: 10px;
+}
+
+.gc_settings_header .gc_cf {
+    width: 686px;
+    float: left;
 }
 
 .gc_file_field {

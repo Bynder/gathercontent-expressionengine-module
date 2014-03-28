@@ -727,12 +727,7 @@ class Gc_curl extends Gc_functions {
                                         <div class="gc_setting gc_import_to" id="gc_import_to_'.$id.'">
                                             <label>'.lang('gathercontent_import_to').' </label>
                                             '.$this->dropdown_html('<span></span>',$this->data['overwrite_select'],'gc[overwrite][]',$this->val($cur_settings,'overwrite')).'
-                                        </div>
-                                        <div class="gc_setting repeat_config">
-                                            <label>'.lang('gathercontent_repeat').' <input type="checkbox" id="gc_repeat_'.$id.'" name="gc[repeat_'.$id.']" value="Y" /></label>
-                                        </div>
-                                    </div>
-                                    <div class="gc_cf">'.($this->data['category_select'] != ''?'
+                                        </div>'.($this->data['category_select'] != ''?'
                                         <div class="gc_setting gc_category" id="gc_category_'.$id.'">
                                             <label>'.lang('gathercontent_category').' </label>
                                             '.$this->dropdown_html('<span>'.lang('gathercontent_choose_category').'</span>',$this->data['category_select'],'gc[category][]',$this->val($cur_settings,'category','-1')).'
@@ -741,6 +736,9 @@ class Gc_curl extends Gc_functions {
                                             <label>'.lang('gathercontent_parent').' </label>
                                             '.$this->dropdown_html('<span></span>',$this->data['structure_parent'],'gc[structure_parent][]',$parent_id_value).'
                                         </div>':'').'
+                                    </div>
+                                    <div class="gc_setting repeat_config">
+                                        <label>'.lang('gathercontent_repeat').' <input type="checkbox" id="gc_repeat_'.$id.'" name="gc[repeat_'.$id.']" value="Y" /></label>
                                     </div>
                                 </div>
                                 <div class="gc_settings_fields" id="gc_fields_'.$id.'">';
