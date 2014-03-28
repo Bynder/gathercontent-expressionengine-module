@@ -121,7 +121,7 @@
 			set_value(to);
 			set_map_to_fields(c,v);
 			var length = cat.find('li').filter(':not([data-post-type*="|'+v+'|"])').hide().addClass('hidden-item').end().filter('[data-post-type*="|'+v+'|"]').show().removeClass('hidden-item').length;
-			set_cat_value(cat[(length>0?'show':'hide')]());
+			cat.length > 0 && set_cat_value(cat[(length>0?'show':'hide')]());
 		}).closest('.btn-group').each(function(){
 			set_value($(this).closest('.btn-group'));
 			set_value($(this).closest('.gc_settings_container').find('.gc_parent'));
