@@ -83,6 +83,8 @@ $lang = array(
     'gathercontent_go_back_to_project' => 'Go back to project',
     'gathercontent_finished_message' => 'All of your selected content has been imported.',
 
+    'gathercontent_tab' => 'Tab',
+
 );
 
 /* End of file lang.gathercontent.php */

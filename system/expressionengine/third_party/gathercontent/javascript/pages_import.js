@@ -2,6 +2,9 @@
 	var page_loaded = false, submit_text = '';
 	$(document).ready(function(){
 		submit_text = $('.gc_ajax_submit_button:first span').text();
+
+		$('.gc_tooltip').tooltip();
+
 		$('.repeat_config input').change(function(){
 			var $t = $(this);
 			if($t.is(':checked')){

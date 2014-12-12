@@ -43,9 +43,6 @@ class Gc_page extends Gc_channel_fields {
 
                 $config = ee()->gc_curl->get_field_config($page, $this->files);
 
-                $custom_fields = ee()->gc_curl->val($config, 'content', array());
-                $meta_fields = ee()->gc_curl->val($config, 'meta', array());
-
                 $fields = ee()->gc_curl->val($gc,'fields',array());
                 $save_settings = array(
                     'post_type' => $gc['post_type'],
@@ -68,7 +65,13 @@ class Gc_page extends Gc_channel_fields {
                     $post['structure__parent_id'] = $post['parent_id'] = $gc['parent_id'];
                 }
 
-                $cats = array_filter(explode(',',$save_settings['category']));
+                $old_cats = array_filter(explode(',',$save_settings['category']));
+                $cats = array();
+                foreach($old_cats as $cat) {
+                    if($cat > 0) {
+                        $cats[] = $cat;
+                    }
+                }
                 if(count($cats) > 0)
                 {
                     $post['category'] = $cats;
@@ -89,13 +92,9 @@ class Gc_page extends Gc_channel_fields {
                         $save_settings['fields'][$tab.'_'.$field_name] = $map_to;
                         continue;
                     }
-                    elseif($tab == 'meta')
+                    elseif(isset($config[$tab]) && isset($config[$tab]['elements'][$field_name]))
                     {
-                        $field = $meta_fields[$field_name];
-                    }
-                    elseif($tab == 'content')
-                    {
-                        $field = $custom_fields[$field_name];
+                        $field = $config[$tab]['elements'][$field_name];
                     }
                     else
                     {
@@ -110,7 +109,7 @@ class Gc_page extends Gc_channel_fields {
                             $post['category'] = array_unique(array_merge($post['category'], $catids));
                         }
                     }
-                    else 
+                    else
                     {
                         $cur_field = ee()->field_model->get_field($map_to);
                         if($cur_field->num_rows() > 0)

@@ -52,6 +52,7 @@ class Gc_curl extends Gc_functions {
         {
             $config = json_decode(base64_decode($obj->config));
             $new_config = array();
+            $total_fields = 0;
             if($this->foreach_safe($config))
             {
 
@@ -131,9 +132,17 @@ class Gc_curl extends Gc_functions {
                         }
                     }
 
-                    $new_config[strtolower($tab_pane->label)] = $new_fields;
+                    $total_fields += count($new_fields);
+
+                    $new_config[strtolower( $tab_pane->name )] = array(
+                        'label' => $tab_pane->label,
+                        'elements' => $new_fields,
+                    );
                 }
             }
+
+            $new_config['field_count'] = $total_fields;
+
             return $new_config;
         }
         return array();
@@ -572,7 +581,7 @@ class Gc_curl extends Gc_functions {
                         {
                             $data = $this->get_ee_field_settings($row);
                             if(isset($data['allowed_directories']) &&
-                             ($data['allowed_directories'] != 'all' || $data['allowed_directories'] > 0)) 
+                             ($data['allowed_directories'] != 'all' || $data['allowed_directories'] > 0))
                             {
                                 $show_upload_select = false;
                                 $extra = ' data-upload-dir="'.$data['allowed_directories'].'"';
@@ -683,12 +692,15 @@ class Gc_curl extends Gc_functions {
             if(isset($this->data['saved_settings'][$id]))
                 $cur_settings = $this->data['saved_settings'][$id];
             $add = '';
+
             $parent_id = $page->parent_id;
+
             $config = $this->get_field_config($page);
-            $fields = $this->val($config, 'content', array());
-            $meta = $this->val($config, 'meta', array());
+
+            $field_count = $this->val($config, 'field_count', 0);
+
             $show_fields = true;
-            if($show_settings && !(count($fields) > 0 || ($meta !== false && count($meta) > 0)))
+            if($show_settings && $field_count == 0)
             {
                 $show_fields = false;
             }
@@ -742,7 +754,9 @@ class Gc_curl extends Gc_functions {
                                     </div>
                                 </div>
                                 <div class="gc_settings_fields" id="gc_fields_'.$id.'">';
+
                                 $field_settings = $this->val($cur_settings,'fields',array());
+
                                 if(count($field_settings) > 0)
                                 {
                                     foreach($field_settings as $name => $map_to)
@@ -753,39 +767,28 @@ class Gc_curl extends Gc_functions {
                                             extract($map_to);
                                         }
                                         list($tab,$field_name) = explode('_',$name,2);
-                                        if($tab == 'content' && isset($fields[$field_name]))
+                                        if(isset($config[$tab]) && isset($config[$tab]['elements'][$field_name]))
                                         {
-                                            $add .= $this->field_settings($id,$fields[$field_name],$tab,'',$map_to, $upload_val);
-                                            unset($fields[$field_name]);
-                                        }
-                                        elseif($tab == 'meta' && $meta !== FALSE && isset($meta[$field_name]))
-                                        {
-                                            $add .= $this->field_settings($id,$meta[$field_name],$tab,' (Meta)',$map_to, $upload_val);
-                                            unset($meta[$field_name]);
+                                            $add .= $this->field_settings($id, $config[$tab]['elements'][$field_name], $tag, $config[$tab]['label'], $map_to, $upload_val);
+                                            unset($config[$tab]['elements'][$field_name]);
                                         }
                                     }
                                 }
-                                foreach($fields as $field)
+
+                                unset( $config['field_count'] );
+
+                                foreach($config as $tab_name => $tab)
                                 {
-                                    $upload_val = '';
-                                    $map_to = $this->val($field_settings,'content_'.$field['name']);
-                                    if(is_array($map_to))
-                                    {
-                                        extract($map_to);
-                                    }
-                                    $add .= $this->field_settings($id,$field,'content','',$map_to,$upload_val);
-                                }
-                                if($meta !== FALSE)
-                                {
-                                    foreach($meta as $field)
+
+                                    foreach($tab['elements'] as $field)
                                     {
                                         $upload_val = '';
-                                        $map_to = $this->val($field_settings,'meta_'.$field['name']);
+                                        $map_to = $this->val($field_settings,$tab_name.'_'.$field['name']);
                                         if(is_array($map_to))
                                         {
                                             extract($map_to);
                                         }
-                                        $add .= $this->field_settings($id,$field,'meta',' (Meta)',$map_to,$upload_val);
+                                        $add .= $this->field_settings($id,$field,$tab_name,$tab['label'],$map_to,$upload_val);
                                     }
                                 }
                                 $add .= '
@@ -816,7 +819,7 @@ class Gc_curl extends Gc_functions {
         return $out;
     }
 
-    function field_settings($id,$field,$tab='content',$name_suffix='',$val='',$upload_val='')
+    function field_settings($id,$field,$tab='content',$tab_label='',$val='',$upload_val='')
     {
         if($field['type'] == 'section')
             return '';
@@ -830,7 +833,7 @@ class Gc_curl extends Gc_functions {
         $html = '
         <div class="gc_settings_field gc_cf" data-field-tab="'.$tab.'" data-field-type="'.$field['type'].'" id="field_'.$fieldid.'">
             <div class="gc_move_field"></div>
-            <div class="gc_field_name gc_left">'.$field['label'].$name_suffix.'</div>'.($field['type'] == 'files' ? '
+            <div class="gc_field_name gc_left"><div class="gc_tab_name gc_tooltip" title="' . $this->attr(lang('gathercontent_tab')) . '">' . $tab_label . '</div>'.$field['label'].'</div>'.($field['type'] == 'files' ? '
             <div class="gc_file_field gc_right" id="gc_upload_dir_'.$fieldid.'">
                 <span>'.lang('gathercontent_upload_location').'</span>
                 '.$this->dropdown_html('<span></span>', $this->data['upload_select'],'gc[file_dir]['.$id.'][]', $upload_val).'
