@@ -772,7 +772,7 @@ class Gc_curl extends Gc_functions {
                                         list($tab,$field_name) = explode('_',$name,2);
                                         if(isset($config[$tab]) && isset($config[$tab]['elements'][$field_name]))
                                         {
-                                            $add .= $this->field_settings($id, $config[$tab]['elements'][$field_name], $tag, $config[$tab]['label'], $map_to, $upload_val);
+                                            $add .= $this->field_settings($id, $config[$tab]['elements'][$field_name], $tab, $config[$tab]['label'], $map_to, $upload_val);
                                             unset($config[$tab]['elements'][$field_name]);
                                         }
                                     }
