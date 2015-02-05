@@ -253,6 +253,9 @@ class Gc_page extends Gc_channel_fields {
 
     function get_category_ids($cat_group, $text)
     {
+        if(is_array($text)) {
+            $cats = implode('|', $text);
+        }
         $cats = strip_tags($text);
         if(strpos($cats, ',') !== false)
         {
