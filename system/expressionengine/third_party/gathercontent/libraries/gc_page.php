@@ -41,6 +41,10 @@ class Gc_page extends Gc_channel_fields {
 
                 $page = $pages[$page_id];
 
+                if(isset($page->children)) {
+                    unset($page->children);
+                }
+
                 $config = ee()->gc_curl->get_field_config($page, $this->files);
 
                 $fields = ee()->gc_curl->val($gc,'fields',array());
@@ -57,6 +61,7 @@ class Gc_page extends Gc_channel_fields {
                     'channel_id' => $gc['post_type'],
                     'title' => $page->name,
                     'status' => 'closed',
+                    'category' => array()
                 );
 
                 if(isset($gc['parent_id']))
@@ -108,6 +113,7 @@ class Gc_page extends Gc_channel_fields {
                         {
                             $post['category'] = array_unique(array_merge($post['category'], $catids));
                         }
+                        $save_settings['fields'][$tab.'_'.$field_name] = $map_to;
                     }
                     else
                     {
@@ -177,6 +183,10 @@ class Gc_page extends Gc_channel_fields {
                 }
 
                 foreach($map_to_array as $field => $values) {
+                    if(substr($field,0,11) == '_cat_group_')
+                    {
+                        continue;
+                    }
                     $value = '';
                     foreach($values as $val) {
                         $value .= ($value == '' ? '' : "\n");
@@ -254,7 +264,7 @@ class Gc_page extends Gc_channel_fields {
     function get_category_ids($cat_group, $text)
     {
         if(is_array($text)) {
-            $cats = implode('|', $text);
+            $text = implode('|', $text);
         }
         $cats = strip_tags($text);
         if(strpos($cats, ',') !== false)
