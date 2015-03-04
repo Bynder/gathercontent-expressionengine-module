@@ -387,6 +387,11 @@ class Gc_page extends Gc_channel_fields {
             $_POST['structure__template_id'] = array_pop($_POST['structure__template_id']);
         }
 
+        if(isset($_POST['structure__listing_channel']))
+        {
+            $_POST['structure__listing_channel'] = intval($_POST['structure__listing_channel']);
+        }
+
         $data = $_POST;
         if(!isset($data['author']))
         {
