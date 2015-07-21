@@ -78,7 +78,7 @@ div.error {
     color: #B94A48;
 }
 
-.itemContents li label.gc_label {
+.pageContents li label.gc_label {
     display: inline-block;
     font-weight: bold;
 }

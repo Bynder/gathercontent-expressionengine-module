@@ -27,7 +27,7 @@
                 );
                 echo form_radio($data);
                 ?>
-                <label for="<?php echo $fieldid ?>" class="gc_label"><?php echo $info['name'] ?> &mdash; <span class="page-count"><?php echo $info['page_count'].' page'.($info['page_count'] == '1'?'':'s') ?></span></label>
+                <label for="<?php echo $fieldid ?>" class="gc_label"><?php echo $info['name'] ?> &mdash; <span class="item-count"><?php echo $info['item_count'].' item'.($info['item_count'] == '1'?'':'s') ?></span></label>
             </li>
         <?php endforeach ?>
         </ul>
