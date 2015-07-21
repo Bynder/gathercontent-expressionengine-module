@@ -12,7 +12,7 @@
         <h2><?php echo lang('gathercontent_repeating') ?></h2>
         <img src="<?php echo $_theme_url ?>images/ajax_loader_blue.gif" alt="" />
     </div>
-    <?php echo form_open($action_url, array('id'=>'gc_importer_step_items_import')) ?>
+    <?php echo form_open($action_url, array('id'=>'gc_importer_step_item_import')) ?>
         <div class="gc_main_content">
             <div class="gc_search_items gc_cf">
                 <div class="gc_left">

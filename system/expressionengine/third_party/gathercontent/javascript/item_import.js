@@ -15,7 +15,7 @@
 			}
 		});
 
-		$('#gc_importer_step_items_import').submit(submit_item_import);
+		$('#gc_importer_step_item_import').submit(submit_item_import);
 
 		$('.gc_field_map input.live_filter').click(function(e){
 			e.preventDefault();

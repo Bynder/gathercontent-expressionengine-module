@@ -1,5 +1,5 @@
 <div class="gc_container gc_wide gc_cf" id="gc_itemlist_container">
-    <?php echo form_open($action_url, array('id'=>'gc_importer_step_items')) ?>
+    <?php echo form_open($action_url, array('id'=>'gc_importer_step_item')) ?>
     <?php
     $errs = validation_errors();
     if(!empty($errs))

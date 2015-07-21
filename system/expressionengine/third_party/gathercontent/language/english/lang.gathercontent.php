@@ -40,7 +40,7 @@ $lang = array(
     'gathercontent_submit_login' => 'Connect account',
     'gathercontent_submit_projects' => 'Import content',
     'gathercontent_submit_items' => 'Configure selected items',
-    'gathercontent_submit_items_import' => 'Import selected items',
+    'gathercontent_submit_item_import' => 'Import selected items',
 
 
     'gathercontent_importing' => 'Importing items and text content...',
