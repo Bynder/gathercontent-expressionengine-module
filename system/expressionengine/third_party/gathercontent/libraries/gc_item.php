@@ -1,22 +1,22 @@
 <?php
 
 require_once PATH_THIRD.'gathercontent/libraries/gc_channel_fields.php';
-class Gc_page extends Gc_channel_fields {
+class Gc_item extends Gc_channel_fields {
 
     var $files = array();
 
-    public function import_page()
+    public function import_item()
     {
         $out = array('error' => lang('gathercontent_import_error_1'));
-        if(($gc = ee()->input->post('gc')) !== FALSE && isset($gc['page_id']))
+        if(($gc = ee()->input->post('gc')) !== FALSE && isset($gc['item_id']))
         {
             ee()->load->model('field_model');
             ee()->load->library('gc_curl');
             ee()->gc_curl->get_post_types();
             $project_id = ee()->gathercontent_settings->get('project_id');
-            $pages = ee()->gathercontent_settings->get('saved_pages');
+            $items = ee()->gathercontent_settings->get('saved_items');
 
-            $page_id = $gc['page_id'];
+            $item_id = $gc['item_id'];
 
             $file_counter = 0;
             $total_files = 0;
@@ -34,18 +34,18 @@ class Gc_page extends Gc_channel_fields {
                 ee()->gathercontent_settings->update('media_files', array());
             }
 
-            if(is_array($pages) && isset($pages[$project_id]) && isset($pages[$project_id]['pages'][$page_id]))
+            if(is_array($items) && isset($items[$project_id]) && isset($items[$project_id]['items'][$item_id]))
             {
-                extract($pages[$project_id]);
-                $this->files = ee()->gc_curl->get_files($page_id);
+                extract($items[$project_id]);
+                $this->files = ee()->gc_curl->get_files($item_id);
 
-                $page = $pages[$page_id];
+                $item = $items[$item_id];
 
-                if(isset($page->children)) {
-                    unset($page->children);
+                if(isset($item->children)) {
+                    unset($item->children);
                 }
 
-                $config = ee()->gc_curl->get_field_config($page, $this->files);
+                $config = ee()->gc_curl->get_field_config($item, $this->files);
 
                 $fields = ee()->gc_curl->val($gc,'fields',array());
                 $save_settings = array(
@@ -59,7 +59,7 @@ class Gc_page extends Gc_channel_fields {
                 $post = array(
                     'entry_id' => $gc['overwrite'],
                     'channel_id' => $gc['post_type'],
-                    'title' => $page->name,
+                    'title' => $item->name,
                     'status' => 'closed',
                     'category' => array()
                 );
@@ -200,8 +200,8 @@ class Gc_page extends Gc_channel_fields {
                     $post[($field == 'title' ? '': 'field_id_').$field] = $value;
                 }
 
-                $new_page_id = $this->save_gathercontent_page($post, $gc['overwrite'], $gc['post_type']);
-                $save_settings['overwrite'] = $new_page_id;
+                $new_item_id = $this->save_gathercontent_item($post, $gc['overwrite'], $gc['post_type']);
+                $save_settings['overwrite'] = $new_item_id;
 
                 $media = ee()->gathercontent_settings->get('media_files',array());
                 if(!isset($media['total_files']))
@@ -212,7 +212,7 @@ class Gc_page extends Gc_channel_fields {
                 if($total_files > 0)
                 {
 
-                    $media[$new_page_id] = $files;
+                    $media[$new_item_id] = $files;
                     if(!isset($media['total_files']))
                     {
                         $media['total_files'] = 0;
@@ -233,16 +233,16 @@ class Gc_page extends Gc_channel_fields {
                     $cur_settings[$project_id] = array();
                 }
 
-                $cur_settings[$project_id][$page_id] = $save_settings;
+                $cur_settings[$project_id][$item_id] = $save_settings;
                 ee()->gathercontent_settings->update('saved_settings', $cur_settings);
 
                 $out = array(
-                    'page_id' => $page_id,
+                    'item_id' => $item_id,
                     'success' => true,
-                    'page_percent' => ee()->gc_curl->percent(++$cur_counter,$total_entries),
+                    'item_percent' => ee()->gc_curl->percent(++$cur_counter,$total_entries),
                     'redirect_url' => ($media['total_files'] > 0 ? 'media' : 'finished'),
-                    'new_page_id' => $new_page_id,
-                    'new_page_html' => '<li><a href="#" data-value="'.$new_page_id.'"><span>'.$post['title'].'</span></a></li>'
+                    'new_item_id' => $new_item_id,
+                    'new_item_html' => '<li><a href="#" data-value="'.$new_item_id.'"><span>'.$post['title'].'</span></a></li>'
                 );
             }
             else
@@ -347,7 +347,7 @@ class Gc_page extends Gc_channel_fields {
         return $temp;
     }
 
-    function save_gathercontent_page($post, $entry_id, $channel_id)
+    function save_gathercontent_item($post, $entry_id, $channel_id)
     {
 
         $_POST = $post;
