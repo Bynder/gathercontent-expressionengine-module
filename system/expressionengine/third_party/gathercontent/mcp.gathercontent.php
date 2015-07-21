@@ -191,7 +191,7 @@ class Gathercontent_mcp {
 		);
 		ee()->view->cp_page_title = lang('gathercontent_items');
 		ee()->cp->add_to_head('<link rel="stylesheet" href="'.$this->_theme_url.'css/items.css">');
-		ee()->cp->load_package_js('items_import');
+		ee()->cp->load_package_js('item_import');
 
 		ee()->gathercontent_settings->update('media_files', array());
 
@@ -234,12 +234,12 @@ class Gathercontent_mcp {
 			'_base_url' => $this->_base_url,
 			'_theme_url' => $this->_theme_url,
 			'action_url' => $this->_form_base.AMP.'method=item_import',
-			'submit_button' => $this->_submit_button('gathercontent_submit_items_import'),
+			'submit_button' => $this->_submit_button('gathercontent_submit_item_import'),
 		);
 
 		ee()->gc_curl->data = $data;
 
-		return ee()->load->view('items_import', $data, TRUE);
+		return ee()->load->view('item_import', $data, TRUE);
 	}
 
 	public function import_item()
