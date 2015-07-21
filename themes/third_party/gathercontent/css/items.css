@@ -27,7 +27,7 @@ td.gc_itemname { text-align: left; }
 
 .gc_search_items .gc_left .btn-group > .btn:last-child, .gc_search_items .gc_left .btn-group > .dropdown-toggle { top: -7px; }
 
-.itemContents .gc_settings_col a { text-decoration: none; }
+.pageContents .gc_settings_col a { text-decoration: none; }
 #gc_importer_step_items_import .gc_table_title { width: 712px; }
 .gc_settings_container {
     border-top: 0 none;

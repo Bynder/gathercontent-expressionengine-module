@@ -1,5 +1,5 @@
-<div class="gc_container gc_wide gc_cf" id="gc_pagelist_container">
-    <?php echo form_open($action_url, array('id'=>'gc_importer_step_pages')) ?>
+<div class="gc_container gc_wide gc_cf" id="gc_itemlist_container">
+    <?php echo form_open($action_url, array('id'=>'gc_importer_step_items')) ?>
     <?php
     $errs = validation_errors();
     if(!empty($errs))
@@ -9,7 +9,7 @@
     }
     ?>
         <div class="gc_main_content">
-            <div class="gc_search_pages gc_cf">
+            <div class="gc_search_items gc_cf">
                 <div class="gc_left">
                     <?php echo $projects_dropdown ?>
                 </div>
@@ -24,25 +24,25 @@
                     );
                     echo form_input($data);
                     ?>
-                    <?php echo $page_count > 0 ? $submit_button : '' ?>
+                    <?php echo $item_count > 0 ? $submit_button : '' ?>
                 </div>
             </div>
-            <table class="gc_pages gc_pagelist" cellspacing="0" cellpadding="0">
+            <table class="gc_items gc_itemlist" cellspacing="0" cellpadding="0">
                 <thead>
                     <tr>
                         <th></th>
-                        <th class="gc_th_page_name"><?php echo lang('gathercontent_pages') ?></th>
+                        <th class="gc_th_item_name"><?php echo lang('gathercontent_items') ?></th>
                         <th><input type="checkbox" id="toggle_all" /></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php echo $page_settings ?>
+                    <?php echo $item_settings ?>
                 </tbody>
             </table>
         </div>
         <div class="gc_subfooter gc_cf">
             <div class="gc_right">
-                <?php echo $page_count > 0 ? $submit_button : '' ?>
+                <?php echo $item_count > 0 ? $submit_button : '' ?>
             </div>
         </div>
     </form>
