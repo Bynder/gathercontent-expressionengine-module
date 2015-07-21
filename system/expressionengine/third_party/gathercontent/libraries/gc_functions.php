@@ -13,6 +13,31 @@ class Gc_functions {
         ee()->load->model('category_model');
     }
 
+    function custom_state_color($color_id, $color_custom) {
+
+        $colors = array(
+            1 => '#C5C5C5',
+            2 => '#FAA732',
+            3 => '#5EB95E',
+            4 => '#0E90D2',
+            5 => '#ECD815',
+            6 => '#DD4398',
+            7 => '#954F99',
+            9999 => $this->custom_color_hex($color_custom)
+        );
+
+        return $colors[$color_id];
+    }
+
+    function custom_color_hex($color_custom) {
+
+        if(empty($color_custom)) {
+            $color_custom = '#999999';
+        }
+
+        return $color_custom;
+    }
+
     function attr($val)
     {
         return htmlspecialchars($val, ENT_QUOTES);

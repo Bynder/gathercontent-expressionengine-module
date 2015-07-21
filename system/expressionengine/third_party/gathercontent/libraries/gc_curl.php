@@ -202,7 +202,7 @@ class Gc_curl extends Gc_functions {
             {
                 $new_states[$state->id] = (object) array(
                     'name' => $state->name,
-                    'color_id' => $state->color_id,
+                    'color' => $this->custom_state_color($state->color_id, $state->color_custom),
                     'position' => $state->position
                 );
                 $count--;
@@ -252,7 +252,7 @@ class Gc_curl extends Gc_functions {
             {
                 $html .= '
                 <li>
-                    <a data-custom-state-name="'.$state->name.'" data-custom-state-id="'.$id.'" href="#change-state"><span class="item-status item-state-color-'.$state->color_id.'"></span> '.$state->name.'</a>
+                    <a data-custom-state-name="'.$state->name.'" data-custom-state-id="'.$id.'" href="#change-state"><span class="item-status item-state-color-9999" style="background-color:'.$state->color.'"></span> '.$state->name.'</a>
                 </li>';
             }
         }
@@ -709,7 +709,7 @@ class Gc_curl extends Gc_functions {
             }
             $out .= '
                 <tr class="gc_item'.($checked?' checked':'').'" data-item-state="'.$item->custom_state_id.'">
-                    <td class="gc_status"><span class="item-status item-state-color-'.$this->data['states'][$item->custom_state_id]->color_id.'"></span></td>
+                    <td class="gc_status"><span class="item-status item-state-color-9999" style="background-color:'.$this->data['states'][$item->custom_state_id]->color.'"></span></td>
                     <td class="gc_itemname">';
 
 
