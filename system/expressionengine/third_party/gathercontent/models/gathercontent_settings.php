@@ -109,7 +109,7 @@ class Gathercontent_settings extends CI_Model {
         }
     }
 
-    function get_parent_page_id($parent_id, $selected_pages, $cur_settings)
+    function get_parent_item_id($parent_id, $selected_items, $cur_settings)
     {
         $new_parent_id = 0;
         if(isset($cur_settings['structure_parent']))
@@ -120,9 +120,9 @@ class Gathercontent_settings extends CI_Model {
         {
             if($parent_id > 0)
             {
-                if(in_array($parent_id, $selected_pages))
+                if(in_array($parent_id, $selected_items))
                 {
-                    $new_parent_id = '_imported_page_';
+                    $new_parent_id = '_imported_item_';
                 }
                 else
                 {

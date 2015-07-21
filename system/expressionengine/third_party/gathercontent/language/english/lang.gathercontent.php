@@ -3,14 +3,14 @@
 $lang = array(
 	'gathercontent_module_name' => 'GatherContent Importer',
 
-	'gathercontent_module_description' => 'Imports pages from GatherContent to your ExpressionEngine site',
+	'gathercontent_module_description' => 'Imports items from GatherContent to your ExpressionEngine site',
 
     'module_home' => 'Projects',
     'module_account' => 'Account Settings',
 
     'gathercontent_projects' => 'Choose a project to import content from',
     'gathercontent_login' => 'Account Settings',
-    'gathercontent_pages' => 'Choose pages to import',
+    'gathercontent_items' => 'Choose items to import',
     'gathercontent_media' => 'Importing files',
     'gathercontent_finished' => 'Success!',
 
@@ -21,12 +21,12 @@ $lang = array(
     'api_key' => 'API Key',
     'api_url' => 'API URL',
     'gathercontent_project' => 'Project',
-    'gathercontent_pages' => 'Pages',
-    'gathercontent_page' => 'Page',
+    'gathercontent_items' => 'Items',
+    'gathercontent_item' => 'Item',
     'gathercontent_search' => 'Search...',
     'gathercontent_all' => 'All',
     'gathercontent_new_entry' => 'New entry',
-    'gathercontent_select_pages' => 'Select different pages',
+    'gathercontent_select_items' => 'Select different items',
 
     'gathercontent_review_errors' => 'Please review the errors below.',
 
@@ -39,11 +39,11 @@ $lang = array(
 
     'gathercontent_submit_login' => 'Connect account',
     'gathercontent_submit_projects' => 'Import content',
-    'gathercontent_submit_pages' => 'Configure selected pages',
-    'gathercontent_submit_pages_import' => 'Import selected pages',
+    'gathercontent_submit_items' => 'Configure selected items',
+    'gathercontent_submit_items_import' => 'Import selected items',
 
 
-    'gathercontent_importing' => 'Importing pages and text content...',
+    'gathercontent_importing' => 'Importing items and text content...',
     'gathercontent_repeating' => 'Repeating configuration...',
 
 
@@ -57,15 +57,15 @@ $lang = array(
     'gathercontent_map_to' => 'Map to',
     'gathercontent_choose_category' => 'Choose categories',
     'gathercontent_repeat' => 'Repeat this configuration',
-    'gathercontent_parent' => 'Page Parent',
+    'gathercontent_parent' => 'Item Parent',
 
     'gathercontent_none' => 'NONE',
-    'gathercontent_imported_page' => 'Imported Parent',
+    'gathercontent_imported_item' => 'Imported Parent',
 
-    'gathercontent_empty_page' => 'This page is empty. You can %sadd some content to this page in GatherContent%s.',
+    'gathercontent_empty_item' => 'This item is empty. You can %sadd some content to this item in GatherContent%s.',
 
-    'gathercontent_import_error_1' => 'Verification failed, please refreshing the page and try again.',
-    'gathercontent_import_error_2' => 'There was a problem importing the page, please refresh and try again.',
+    'gathercontent_import_error_1' => 'Verification failed, please refreshing the item and try again.',
+    'gathercontent_import_error_2' => 'There was a problem importing the item, please refresh and try again.',
     'gathercontent_import_error_3' => 'There was a problem connecting. Please try again later',
     'gathercontent_import_error_4' => 'There was an error with the file (%s)',
     'gathercontent_import_error_5' => 'Retrying to download (%s)',
@@ -76,7 +76,7 @@ $lang = array(
 
     'gathercontent_importing_files' => 'Importing files',
 
-    'gathercontent_media_header' => '<strong>Heads up!</strong> This process can take a while, it depends on how many files you have attached to your pages. Just think how much time you\'re saving.',
+    'gathercontent_media_header' => '<strong>Heads up!</strong> This process can take a while, it depends on how many files you have attached to your items. Just think how much time you\'re saving.',
     'gathercontent_progress' => 'Overall Progress',
     'gathercontent_cancel' => 'Cancel',
 

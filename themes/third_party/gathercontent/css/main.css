@@ -78,7 +78,7 @@ div.error {
     color: #B94A48;
 }
 
-.pageContents li label.gc_label {
+.itemContents li label.gc_label {
     display: inline-block;
     font-weight: bold;
 }
@@ -107,7 +107,7 @@ div.error {
     line-height: 17px;
 }
 
-#gc_page_title {
+#gc_item_title {
     color: #999999;
     font-weight: normal;
 }

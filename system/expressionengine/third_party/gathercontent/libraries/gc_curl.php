@@ -4,11 +4,11 @@ require_once PATH_THIRD.'gathercontent/libraries/gc_functions.php';
 class Gc_curl extends Gc_functions {
 
     var $has_acf = FALSE;
-    var $page_count = 0;
+    var $item_count = 0;
     var $cat_groups = array();
     var $allows_tags = array();
     var $field_groups = array();
-    var $page_ids = array();
+    var $item_ids = array();
     var $error = '';
     var $has_structure = NULL;
     var $sql;
@@ -151,9 +151,9 @@ class Gc_curl extends Gc_functions {
         return array();
     }
 
-    function get_files($page_id)
+    function get_files($item_id)
     {
-        $files = $this->get('get_files_by_page',array('id'=>$page_id));
+        $files = $this->get('get_files_by_page',array('id'=>$item_id));
         if($files && isset($files->files) && $this->foreach_safe($files->files))
         {
             foreach($files->files as $file)
@@ -165,9 +165,9 @@ class Gc_curl extends Gc_functions {
                 $this->files[$file->page_id][$file->field][] = $file;
             }
         }
-        if(isset($this->files[$page_id]))
+        if(isset($this->files[$item_id]))
         {
-            return $this->files[$page_id];
+            return $this->files[$item_id];
         }
         return array();
     }
@@ -183,7 +183,7 @@ class Gc_curl extends Gc_functions {
             {
                 $newprojects[$project->id] = array(
                     'name' => $project->name,
-                    'page_count' => $project->page_count
+                    'item_count' => $project->page_count
                 );
             }
             asort($newprojects);
@@ -207,7 +207,7 @@ class Gc_curl extends Gc_functions {
                 );
                 $count--;
             }
-            uasort($new_states,array(&$this,'sort_pages'));
+            uasort($new_states,array(&$this,'sort_items'));
         }
         $this->data['states'] = $new_states;
     }
@@ -244,7 +244,7 @@ class Gc_curl extends Gc_functions {
     {
         $html = '
             <li>
-                <a data-custom-state-name="All" href="#change-state"><span class="page-status"></span>  '.lang('gathercontent_all').'</a>
+                <a data-custom-state-name="All" href="#change-state"><span class="item-status"></span>  '.lang('gathercontent_all').'</a>
             </li>';
         if($this->foreach_safe($this->data['states']))
         {
@@ -252,7 +252,7 @@ class Gc_curl extends Gc_functions {
             {
                 $html .= '
                 <li>
-                    <a data-custom-state-name="'.$state->name.'" data-custom-state-id="'.$id.'" href="#change-state"><span class="page-status page-state-color-'.$state->color_id.'"></span> '.$state->name.'</a>
+                    <a data-custom-state-name="'.$state->name.'" data-custom-state-id="'.$id.'" href="#change-state"><span class="item-status item-state-color-'.$state->color_id.'"></span> '.$state->name.'</a>
                 </li>';
             }
         }
@@ -345,59 +345,59 @@ class Gc_curl extends Gc_functions {
         $this->default_post_type = $default;
     }
 
-    function get_pages($save_pages=FALSE)
+    function get_items($save_items=FALSE)
     {
-        $pages = $this->get('get_pages_by_project',array('id'=>$this->option('project_id')));
+        $items = $this->get('get_pages_by_project',array('id'=>$this->option('project_id')));
         $original = array();
-        $new_pages = array();
+        $new_items = array();
         $parent_array = array();
-        $meta_pages = array();
-        if($pages && is_array($pages->pages))
+        $meta_items = array();
+        if($items && is_array($items->pages))
         {
-            foreach($pages->pages as $page)
+            foreach($items->pages as $item)
             {
-                $original[$page->id] = $page;
-                $parent_id = $page->parent_id;
+                $original[$item->id] = $item;
+                $parent_id = $item->parent_id;
                 if(!isset($parent_array[$parent_id]))
                 {
                     $parent_array[$parent_id] = array();
                 }
-                $parent_array[$parent_id][$page->id] = $page;
+                $parent_array[$parent_id][$item->id] = $item;
 
-                $this->page_count++;
+                $this->item_count++;
             }
-            foreach($parent_array as $parent_id => $page_array)
+            foreach($parent_array as $parent_id => $item_array)
             {
-                $array = $page_array;
-                uasort($array,array(&$this,'sort_pages'));
+                $array = $item_array;
+                uasort($array,array(&$this,'sort_items'));
                 $parent_array[$parent_id] = $array;
             }
             if(isset($parent_array[0]))
             {
-                foreach($parent_array[0] as $id => $page)
+                foreach($parent_array[0] as $id => $item)
                 {
-                    $new_pages[$id] = $page;
-                    $new_pages[$id]->children = $this->sort_recursive($parent_array,$id);
+                    $new_items[$id] = $item;
+                    $new_items[$id]->children = $this->sort_recursive($parent_array,$id);
                 }
             }
         }
-        $this->pages = $new_pages;
+        $this->items = $new_items;
         $this->original_array = $original;
-        $this->meta_pages = $meta_pages;
-        if($save_pages)
+        $this->meta_items = $meta_items;
+        if($save_items)
         {
             $project_id = ee()->gathercontent_settings->get('project_id');
-            $saved_pages = ee()->gathercontent_settings->get('saved_pages', array());
-            if(!is_array($saved_pages))
+            $saved_items = ee()->gathercontent_settings->get('saved_items', array());
+            if(!is_array($saved_items))
             {
-               $saved_pages = array();
+               $saved_items = array();
             }
-            $saved_pages[$project_id] = array('pages' => $original, 'meta' => $meta_pages);
-            ee()->gathercontent_settings->update('saved_pages', $saved_pages);
+            $saved_items[$project_id] = array('items' => $original, 'meta' => $meta_items);
+            ee()->gathercontent_settings->update('saved_items', $saved_items);
         }
     }
 
-    function page_overwrite_dropdown()
+    function item_overwrite_dropdown()
     {
         $html = '';
         if($this->has_structure())
@@ -423,10 +423,10 @@ class Gc_curl extends Gc_functions {
 
             $html .= $this->_get_tree_list();
 
-            $page_ids = implode(',', $this->page_ids);
+            $item_ids = implode(',', $this->item_ids);
             $prefix = ee()->db->dbprefix;
             $sql = "SELECT entry_id, channel_id, title FROM ".$prefix."channel_titles WHERE site_id=".$this->site_id;
-            count($this->page_ids) > 0 && $sql .= " AND entry_id NOT IN(".$page_ids.")";
+            count($this->item_ids) > 0 && $sql .= " AND entry_id NOT IN(".$item_ids.")";
             $sql .= " ORDER BY channel_id ASC, title ASC";
             $result = ee()->db->query($sql);
             if($result->num_rows() > 0)
@@ -478,7 +478,7 @@ class Gc_curl extends Gc_functions {
                 <a href="#" data-value="0">'.lang('gathercontent_none').'</a>
             </li>
             <li>
-                <a href="#" data-value="_imported_page_">'.lang('gathercontent_imported_page').'</a>
+                <a href="#" data-value="_imported_item_">'.lang('gathercontent_imported_item').'</a>
             </li>
             <li class="divider"></li>'.$this->_get_tree_list();
         }
@@ -497,17 +497,17 @@ class Gc_curl extends Gc_functions {
         {
             $tree = $this->sql->get_data();
             $ul_open = FALSE;
-            $last_page_depth = 0;
+            $last_item_depth = 0;
             $i = 1;
-            foreach ($tree as $eid => $page)
+            foreach ($tree as $eid => $item)
             {
-                $this->page_ids[] = $page['entry_id'];
-                $li_open = '<li data-post-type="'.$page['channel_id'].'" data-structure-type="page">';
+                $this->item_ids[] = $item['entry_id'];
+                $li_open = '<li data-post-type="'.$item['channel_id'].'" data-structure-type="item">';
 
                 $title_str = '';
-                if ($page['depth'] > $last_page_depth)
+                if ($item['depth'] > $last_item_depth)
                 {
-                    $markup = "<ul class='page-list";
+                    $markup = "<ul class='item-list";
 
                     $markup .= "'>".$li_open."\n";
 
@@ -517,9 +517,9 @@ class Gc_curl extends Gc_functions {
                 {
                     $markup = $li_open."\n";
                 }
-                elseif ($page['depth'] < $last_page_depth)
+                elseif ($item['depth'] < $last_item_depth)
                 {
-                    $back_to = $last_page_depth - $page['depth'];
+                    $back_to = $last_item_depth - $item['depth'];
                     $markup  = "\n</li>";
                     $markup .= str_repeat("\n</ul>\n</li>\n", $back_to);
                     $markup .= $li_open."\n";
@@ -529,18 +529,18 @@ class Gc_curl extends Gc_functions {
                 {
                     $markup = "\n</li>\n".$li_open."\n";
                 }
-                if($page['depth'] > 0)
+                if($item['depth'] > 0)
                 {
-                    $title_str = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $page['depth']);
+                    $title_str = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $item['depth']);
                     $title_str .= '↳';
                 }
-                $html .= $markup.'<a href="#" data-value="'.$page['entry_id'].'">'.$title_str.'<span>'.$page['title'].'</span></a>';
+                $html .= $markup.'<a href="#" data-value="'.$item['entry_id'].'">'.$title_str.'<span>'.$item['title'].'</span></a>';
 
-                $last_page_depth = $page['depth']; $i++;
+                $last_item_depth = $item['depth']; $i++;
             }
 
             $html  .= "\n</li>";
-            $html .= str_repeat("</ul>\n</li>\n", $last_page_depth);
+            $html .= str_repeat("</ul>\n</li>\n", $last_item_depth);
         }
         $this->data['structure_tree_list'] = $html;
         return $this->data['structure_tree_list'];
@@ -679,15 +679,15 @@ class Gc_curl extends Gc_functions {
     {
         $out = '';
         $index++;
-        $selected = $this->option('selected_pages');
+        $selected = $this->option('selected_items');
         if(!$this->foreach_safe($selected))
             $selected = array();
-        foreach($array as $id => $page)
+        foreach($array as $id => $item)
         {
             if($show_settings && !in_array($id, $selected))
             {
-                if(isset($page->children) && count($page->children) > 0)
-                    $out .= $this->generate_settings($page->children,$index,$show_settings);
+                if(isset($item->children) && count($item->children) > 0)
+                    $out .= $this->generate_settings($item->children,$index,$show_settings);
                 continue;
             }
             $checked = $show_settings;
@@ -696,9 +696,9 @@ class Gc_curl extends Gc_functions {
                 $cur_settings = $this->data['saved_settings'][$id];
             $add = '';
 
-            $parent_id = $page->parent_id;
+            $parent_id = $item->parent_id;
 
-            $config = $this->get_field_config($page);
+            $config = $this->get_field_config($item);
 
             $field_count = $this->val($config, 'field_count', 0);
 
@@ -708,9 +708,9 @@ class Gc_curl extends Gc_functions {
                 $show_fields = false;
             }
             $out .= '
-                <tr class="gc_page'.($checked?' checked':'').'" data-page-state="'.$page->custom_state_id.'">
-                    <td class="gc_status"><span class="page-status page-state-color-'.$this->data['states'][$page->custom_state_id]->color_id.'"></span></td>
-                    <td class="gc_pagename">';
+                <tr class="gc_item'.($checked?' checked':'').'" data-item-state="'.$item->custom_state_id.'">
+                    <td class="gc_status"><span class="item-status item-state-color-'.$this->data['states'][$item->custom_state_id]->color_id.'"></span></td>
+                    <td class="gc_itemname">';
 
 
             if($index > 0)
@@ -720,17 +720,17 @@ class Gc_curl extends Gc_functions {
                 $out .= '↳';
             }
 
-            $out .= ' <label for="import_'.$id.'">'.$page->name.'</label></td>
-                    <td class="gc_checkbox">'.($show_fields === TRUE ?'<input type="checkbox" name="import_'.$id.'" id="import_'.$id.'" value="'.$id.'"'.($checked?' checked="checked"':'').' /><input type="hidden" name="page_id[]" value="'.$id.'" />':'').'</td>
+            $out .= ' <label for="import_'.$id.'">'.$item->name.'</label></td>
+                    <td class="gc_checkbox">'.($show_fields === TRUE ?'<input type="checkbox" name="import_'.$id.'" id="import_'.$id.'" value="'.$id.'"'.($checked?' checked="checked"':'').' /><input type="hidden" name="item_id[]" value="'.$id.'" />':'').'</td>
                 </tr>';
 
             if($show_settings)
             {
                 if($show_fields === TRUE)
                 {
-                    $parent_id_value = ee()->gathercontent_settings->get_parent_page_id($parent_id, $selected, $cur_settings);
+                    $parent_id_value = ee()->gathercontent_settings->get_parent_item_id($parent_id, $selected, $cur_settings);
                     $add = '
-                    <tr class="gc_table_row" data-page-id="'.$id.'" data-parent-id="'.$parent_id.'">
+                    <tr class="gc_table_row" data-item-id="'.$id.'" data-parent-id="'.$parent_id.'">
                         <td colspan="3" class="gc_settings_container">
                             <div>
                                 <div class="gc_settings_header gc_cf">
@@ -802,9 +802,9 @@ class Gc_curl extends Gc_functions {
                 }
                 else
                 {
-                    $message = lang('gathercontent_empty_page');
+                    $message = lang('gathercontent_empty_item');
                     $message = sprintf($message,
-                        '<a href="https://'.$this->option('api_url').'.gathercontent.com/pages/view/'.$this->option('project_id').'/'.$id.'" target="_blank">',
+                        '<a href="https://'.$this->option('api_url').'.gathercontent.com/page/'.$id.'" target="_blank">',
                         '</a>');
                     $add = '
                     <tr>
@@ -815,8 +815,8 @@ class Gc_curl extends Gc_functions {
                 }
             }
             $out .= $add;
-            if(isset($page->children) && count($page->children) > 0)
-                $out .= $this->generate_settings($page->children,$index,$show_settings);
+            if(isset($item->children) && count($item->children) > 0)
+                $out .= $this->generate_settings($item->children,$index,$show_settings);
         }
 
         return $out;
@@ -916,19 +916,19 @@ class Gc_curl extends Gc_functions {
         return sprintf(lang('gathercontent_curl_error_1'),'<a href="'.$this->url('login',FALSE).'">','</a>');
     }
 
-    function sort_recursive($pages,$current=0)
+    function sort_recursive($items,$current=0)
     {
         $children = array();
-        if(isset($pages[$current]))
+        if(isset($items[$current]))
         {
-            $children = $pages[$current];
-            foreach($children as $id => $page)
-                $children[$id]->children = $this->sort_recursive($pages,$id);
+            $children = $items[$current];
+            foreach($children as $id => $item)
+                $children[$id]->children = $this->sort_recursive($items,$id);
         }
         return $children;
     }
 
-    function sort_pages($a,$b)
+    function sort_items($a,$b)
     {
         if($a->position == $b->position)
         {

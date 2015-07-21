@@ -18,7 +18,7 @@ class Gc_functions {
         return htmlspecialchars($val, ENT_QUOTES);
     }
 
-    function get_page_title_array($post_id)
+    function get_item_title_array($post_id)
     {
         $data = array();
 
@@ -42,7 +42,7 @@ class Gc_functions {
         {
             $title = substr($title,0,27).'...';
         }
-        $data['page_title'] = $title;
+        $data['item_title'] = $title;
         return $data;
     }
 
@@ -92,9 +92,9 @@ class Gc_functions {
     {
         $this->enqueue('main','style');
         $step = $this->step();
-        if($step == 'pages' || $step == 'pages_import')
+        if($step == 'items' || $step == 'item_import')
         {
-            $this->enqueue('pages','style');
+            $this->enqueue('items','style');
         }
     }
 
@@ -121,7 +121,7 @@ class Gc_functions {
 
         $channel_id = ee()->channel_entries_model->get_entry($post_id)->row('channel_id');
 
-        ee()->load->library('gc_page');
+        ee()->load->library('gc_item');
 
         $save_data = array();
 
@@ -153,26 +153,26 @@ class Gc_functions {
         $save_data['entry_id'] = $post_id;
         $save_data['channel_id'] = $entry_data['channel_id'];
 
-        ee()->gc_page->save_gathercontent_page($save_data, $post_id, $entry_data['channel_id']);
+        ee()->gc_item->save_gathercontent_item($save_data, $post_id, $entry_data['channel_id']);
 
     }
 
-    function get_media_ajax_output($post_id,$media,$cur_post,$page_total,$total)
+    function get_media_ajax_output($post_id,$media,$cur_post,$item_total,$total)
     {
         $cur_num = $_GET['cur_num'];
         $cur_total = $_GET['cur_total'];
 
         $next_id = $post_id;
-        if($cur_num == $page_total)
+        if($cur_num == $item_total)
         {
-            $page_percent = 100;
+            $item_percent = 100;
             $cur_num = 1;
             unset($media[$post_id]);
             $next_id = key($media);
         }
         else
         {
-            $page_percent = $this->percent($cur_num,$page_total);
+            $item_percent = $this->percent($cur_num,$item_total);
             $cur_num++;
             $media[$post_id] = $cur_post;
         }
@@ -181,7 +181,7 @@ class Gc_functions {
         if($cur_total == $total)
         {
             $next_id = $post_id;
-            $page_percent = $overall_percent = '100';
+            $item_percent = $overall_percent = '100';
         }
         else
         {
@@ -189,14 +189,14 @@ class Gc_functions {
         }
         $cur_total++;
 
-        $data = $this->get_page_title_array($next_id);
+        $data = $this->get_item_title_array($next_id);
 
         $out = array(
-            'page_percent' => $page_percent,
+            'item_percent' => $item_percent,
             'overall_percent' => $overall_percent,
             'cur_num' => $cur_num,
             'cur_total' => $cur_total,
-            'page_title' => $data['page_title'],
+            'item_title' => $data['item_title'],
             'original_title' => $data['original_title'],
         );
         return $out;

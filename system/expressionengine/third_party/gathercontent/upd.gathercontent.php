@@ -32,7 +32,7 @@ class Gathercontent_upd {
 
         $data = array(
             'class' => 'Gathercontent_mcp',
-            'method' => 'import_page',
+            'method' => 'import_item',
         );
         ee()->db->insert('actions', $data);
 

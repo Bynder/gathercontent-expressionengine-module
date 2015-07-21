@@ -18,7 +18,7 @@ class Gc_media extends Gc_curl {
 		if($this->foreach_safe($media[$post_id]['files']))
 		{
 			$cur_post = $media[$post_id];
-			$page_total = $cur_post['total_files'];
+			$item_total = $cur_post['total_files'];
 			$more_than_1 = (count($cur_post['files'][0]) > 1);
 			$file = array_shift($cur_post['files'][0]);
 			if(!$more_than_1)
@@ -49,7 +49,7 @@ class Gc_media extends Gc_curl {
 
 				$fid = $query->row('fid');
 
-				$file_obj = ee()->file_model->get_files_by_id($fid)->row();				
+				$file_obj = ee()->file_model->get_files_by_id($fid)->row();
 
 				$mime = get_mime_by_extension($file_obj->rel_path);
 
@@ -64,10 +64,10 @@ class Gc_media extends Gc_curl {
 
 				$this->add_media_to_content($post_id,$file,$more_than_1);
 
-				$out = $this->get_media_ajax_output($post_id,$media,$cur_post,$page_total,$total);
+				$out = $this->get_media_ajax_output($post_id,$media,$cur_post,$item_total,$total);
 				$out['success'] = true;
 				$out['new_file'] = $file_obj->rel_path;
-				
+
 			}
 			else
 			{
@@ -101,7 +101,7 @@ class Gc_media extends Gc_curl {
 						$dimensions = ee()->file_model->get_dimensions_by_dir_id($file['upload_dir']);
 						$dimensions = $dimensions->result_array();
 						ee()->filemanager->create_thumb(
-							$new_file, 
+							$new_file,
 							array(
 								'server_path' => $path,
 								'file_name' => $filename,
@@ -112,7 +112,7 @@ class Gc_media extends Gc_curl {
 							FALSE
 						);
 					}
-					
+
 					$thumb_info = ee()->filemanager->get_thumb($filename, $file['upload_dir']);
 
 					$file_data = array(
@@ -157,7 +157,7 @@ class Gc_media extends Gc_curl {
 
 						$this->add_media_to_content($post_id,$file,$more_than_1);
 
-						$out = $this->get_media_ajax_output($post_id,$media,$cur_post,$page_total,$total);
+						$out = $this->get_media_ajax_output($post_id,$media,$cur_post,$item_total,$total);
 						$out['success'] = true;
 						$out['new_file'] = $new_file;
 					}
@@ -167,7 +167,7 @@ class Gc_media extends Gc_curl {
 
 						if($retry == '1')
 						{
-							$out = $this->get_media_ajax_output($post_id,$media,$cur_post,$page_total,$total);
+							$out = $this->get_media_ajax_output($post_id,$media,$cur_post,$item_total,$total);
 							$out['success'] = false;
 							$out['error'] = sprintf(lang('gathercontent_import_error_4'), $new_file);
 						}
@@ -187,7 +187,7 @@ class Gc_media extends Gc_curl {
 
 					if($retry == '1')
 					{
-						$out = $this->get_media_ajax_output($post_id,$media,$cur_post,$page_total,$total);
+						$out = $this->get_media_ajax_output($post_id,$media,$cur_post,$item_total,$total);
 						$out['success'] = false;
 						$out['error'] = sprintf(lang('gathercontent_import_error_6'), $file['original_filename']);
 					}
