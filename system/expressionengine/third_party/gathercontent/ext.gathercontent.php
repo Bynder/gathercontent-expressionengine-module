@@ -34,6 +34,7 @@ class Gathercontent_ext {
 	        'class'     => __CLASS__,
 	        'method'    => 'delete_file',
 	        'hook'      => 'files_after_delete',
+	        'settings'  => '',
 	        'priority'  => 10,
 	        'version'   => $this->version,
 	        'enabled'   => 'y'
