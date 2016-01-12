@@ -25,7 +25,7 @@ The module allows you to specifically map each field on your pages in [GatherCon
 
 5.	Click "GatherContent Importer" to go to the module.
 
-6.	Fill in your API details and click Connect account
+6.	Fill in your Legacy API details and click Connect account
 
 7.	On the next page click "+ Add". This will add a link in your top navigation bar for easy access
 
