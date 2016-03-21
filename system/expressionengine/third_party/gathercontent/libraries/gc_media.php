@@ -75,7 +75,7 @@ class Gc_media extends Gc_curl {
 				$new_file = ee()->filemanager->clean_filename($file['original_filename'], $file['upload_dir'], array('ignore_dupes' => FALSE));
 
 				$fp = fopen($new_file,'w');
-				$resp = $this->_curl('https://gathercontent.s3.amazonaws.com/'.$file['filename'],array(CURLOPT_FILE => $fp));
+				$resp = $this->_curl('https://gathercontent-production-uploads.s3.amazonaws.com/'.$file['filename'],array(CURLOPT_FILE => $fp));
 				fclose($fp);
 
 				@chmod($new_file, FILE_WRITE_MODE);
