@@ -877,7 +877,11 @@ class Gc_curl extends Gc_functions {
         $api_url = 'https://'.$this->option('api_url').'.gathercontent.com/api/0.3/'.$command;
         $curl_opts = array(
             CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
-            CURLOPT_HTTPHEADER => array('Accept: application/json', 'Content-Type: application/x-www-form-urlencoded'),
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Content-Type: application/x-www-form-urlencoded',
+                'User-Agent: Integration-EE-' . APP_VER . '/1.0.1',
+            ),
             CURLOPT_USERPWD => $this->option('api_key') . ":x",
             CURLOPT_POST => TRUE,
             CURLOPT_POSTFIELDS => http_build_query($postfields)

@@ -11,7 +11,7 @@
 
 class Gathercontent_upd {
 
-	public $version = '1.0';
+	public $version = '1.0.1';
 
 	// ----------------------------------------------------------------
 

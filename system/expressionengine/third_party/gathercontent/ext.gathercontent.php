@@ -11,7 +11,7 @@
 
 class Gathercontent_ext {
 
-    var $version        = '1.0';
+    var $version        = '1.0.1';
     var $settings_exist = 'n';
     var $docs_url       = '';
 
@@ -42,7 +42,7 @@ class Gathercontent_ext {
 
 	    ee()->db->insert('extensions', $data);
 	}
-	
+
 	function disable_extension()
 	{
 	    ee()->db->where('class', __CLASS__);
