@@ -1,4 +1,4 @@
-##This module is no longer supported
+This module is no longer supported
 ====================================
 
 
