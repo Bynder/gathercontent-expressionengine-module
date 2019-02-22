@@ -1,3 +1,6 @@
+##This module is no longer supported
+====================================
+
 
 [GatherContent](https://gathercontent.com) ExpressionEngine Module
 ===========================================
@@ -34,5 +37,3 @@ The module allows you to specifically map each field on your pages in [GatherCon
 
 
 [@gathercontent](http://twitter.com/gathercontent)
-
-[mat@gathercontent.com](mailto:mat@gathercontent.com)
